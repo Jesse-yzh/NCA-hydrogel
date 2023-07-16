@@ -1,0 +1,268 @@
+#####################################################
+#                                                   #
+# NCA hydrogel LAMMPS INPUT SCRIPT                  #
+#                                                   #
+# Filename: in.nca                                  #
+# Author: zehua yu，2023                            #
+#                                                   #
+#####################################################
+
+# ====================================================================
+# Define variables
+# ====================================================================
+
+# input data file
+variable        lmp_data string  NCAhydrogel.data
+
+# ====================================================================
+# Initialization
+# ====================================================================
+
+units           real      
+boundary        p p p
+dimension       3
+atom_style      full
+
+# ====================================================================
+# Force Field
+# ====================================================================
+
+# LJ potential
+bond_style harmonic
+angle_style harmonic
+dihedral_style opls
+improper_style cvff
+pair_style lj/cut/coul/long 12.0
+pair_modify mix geometric tail yes
+special_bonds lj/coul 0.0 0.0 0.5
+
+# Atom definition
+read_data        ${lmp_data}
+
+# ====================================================================
+# Mass #
+# ====================================================================
+
+mass   1  12.01100 # ch2
+mass   2   1.00800 # h
+mass   3  12.01100 # ch
+mass   4  12.01100 # c
+mass   5  15.99900 # o
+mass   6  14.00670 # n
+mass   7  12.01100 # chn
+mass   8  12.01100 # ch3
+mass   9   1.00800 # hn
+mass  10  12.01100 # cn
+mass  11  32.06000 # s
+mass  12  15.99900 # os
+mass  13  15.99900 # o_w
+mass  14   1.00800 # h_w
+mass  15  65.38000 # Zn
+
+# ================================================================
+# Bond coeffs # harmonic
+# ================================================================
+
+bond_coeff   1   268.00000  1.529 # ch2-ch
+bond_coeff   2   340.00000  1.09  # ch2-h
+bond_coeff   3   317.00000  1.522 # ch-c
+bond_coeff   4   340.00000  1.09  # h-ch
+bond_coeff   5   570.00000  1.229 # c-o
+bond_coeff   6   490.00000  1.335 # c-n
+bond_coeff   7   337.00000  1.449 # n-chn
+bond_coeff   8   434.00000  1.01  # n-hn
+bond_coeff   9   268.00000  1.529 # chn-ch3
+bond_coeff  10   340.00000  1.09  # h-chn
+bond_coeff  11   340.00000  1.09  # h-ch3
+bond_coeff  12   337.00000  1.449 # n-cn
+bond_coeff  13   268.00000  1.529 # ch3-cn
+bond_coeff  14   268.00000  1.529 # ch2-cn
+bond_coeff  15   340.00000  1.77  # ch2-s
+bond_coeff  16   700.00000  1.44  # s-os
+bond_coeff  17   542.59000  1.00  # o_w-h_w
+
+# =================================================================
+# Angle coeffs # harmonic
+# =================================================================
+
+angle_coeff   1   37.500  110.7    # h-ch2-ch
+angle_coeff   2   33.000  107.8    # h-ch2-h
+angle_coeff   3   58.350  112.7    # ch2-ch-ch2
+angle_coeff   4   63.000  111.1    # ch2-ch-c
+angle_coeff   5   37.500  110.7    # ch2-ch-h
+angle_coeff   6   35.000  109.5    # h-ch-c
+angle_coeff   7   58.350  112.7    # ch-ch2-ch
+angle_coeff   8   80.000  120.4    # ch-c-o
+angle_coeff   9   70.000  116.6    # ch-c-n
+angle_coeff  10   80.000  122.9    # o-c-n
+angle_coeff  11   50.000  121.9    # c-n-chn
+angle_coeff  12   35.000  119.8    # c-n-hn
+angle_coeff  13   38.000  118.4    # chn-n-hn
+angle_coeff  14   80.000  109.7    # n-chn-ch3
+angle_coeff  15   35.000  109.5    # h-chn-n
+angle_coeff  16   58.350  112.7    # ch3-chn-ch3
+angle_coeff  17   37.500  110.7    # h-chn-ch3
+angle_coeff  18   37.500  110.7    # h-ch3-chn
+angle_coeff  19   33.000  107.8    # h-ch3-h
+angle_coeff  20   50.000  121.9    # c-n-cn
+angle_coeff  21   38.000  118.4    # hn-n-cn
+angle_coeff  22   80.000  109.7    # n-cn-ch3
+angle_coeff  23   80.000  109.7    # ch2-cn-n
+angle_coeff  24   58.350  112.7    # ch3-cn-ch3
+angle_coeff  25   58.350  112.7    # ch2-cn-ch3
+angle_coeff  26   37.500  110.7    # h-ch3-cn
+angle_coeff  27   50.000  108.6    # cn-ch2-s
+angle_coeff  28   37.500  110.7    # h-ch2-cn
+angle_coeff  29   35.000  109.5    # h-ch2-s
+angle_coeff  30   74.000  108.9    # ch2-s-os
+angle_coeff  31   104.00  119.0    # os-s-os
+angle_coeff  32   33.000  107.8    # h-ch-h
+angle_coeff  33   46.650  109.470  # h_w-o_w-h_w
+
+# =======================================================================
+# Dihedral coeffs # opls
+# =======================================================================
+
+dihedral_coeff   1   0.8 -0.76 0.0 0.0    # h-ch2-ch-ch2
+dihedral_coeff   2   0.8 -0.76 0.0 0.0    # h-ch2-ch-c
+dihedral_coeff   3   0.0 0.0 0.3 0.0      # h-ch2-ch-h
+dihedral_coeff   4   0.7 -1.5 0.0 0.0     # ch-ch2-ch-ch2
+dihedral_coeff   5   0.7 -1.5 0.0 0.0     # ch-ch2-ch-c
+dihedral_coeff   6   0.8 -0.76 0.0 0.0    # ch-ch2-ch-h
+dihedral_coeff   7   0.0 0.5 0.0 0.0      # ch2-ch-c-o
+dihedral_coeff   8   -0.5 0.2 0.0 0.0     # ch2-ch-c-n
+dihedral_coeff   9   0.0 0.0 0.0 0.0      # h-ch-c-o
+dihedral_coeff  10   -0.9 0.3 0.0 0.0     # h-ch-c-n
+dihedral_coeff  11   0.4 4.9 0.0 0.0      # ch-c-n-chn
+dihedral_coeff  12   0.0 4.9 0.0 0.0      # ch-c-n-hn
+dihedral_coeff  13   0.0 6.089 0.0 0.0    # o-c-n-chn
+dihedral_coeff  14   0.0 4.9 0.0 0.0      # o-c-n-hn
+dihedral_coeff  15   0.4 4.9 0.0 0.0      # c-n-chn-ch3
+dihedral_coeff  16   2.3 6.089 0.0 0.0    # c-n-chn-h
+dihedral_coeff  17   0.0 4.9 0.0 0.0      # hn-n-chn-ch3
+dihedral_coeff  18   0.0 4.9 0.0 0.0      # hn-n-chn-h
+dihedral_coeff  19   -0.9 0.3 0.0 0.0     # n-chn-ch3-h
+dihedral_coeff  20   0.8 -0.76 0.0 0.0    # ch3-chn-ch3-h
+dihedral_coeff  21   0.0 0.0 0.3 0.0      # h-chn-ch3-h
+dihedral_coeff  22   0.4 4.9 0.0 0.0      # ch-c-n-cn
+dihedral_coeff  23   0.0 6.089 0.0 0.0    # o-c-n-cn
+dihedral_coeff  24   0.4 4.9 0.0 0.0      # c-n-cn-ch3
+dihedral_coeff  25   0.4 4.9 0.0 0.0      # c-n-cn-ch2
+dihedral_coeff  26   0.0 4.9 0.0 0.0      # hn-n-cn-ch3
+dihedral_coeff  27   0.0 4.9 0.0 0.0      # hn-n-cn-ch2
+dihedral_coeff  28   -0.9 0.3 0.0 0.0     # h-ch3-cn-n
+dihedral_coeff  29   0.8 -0.76 0.0 0.0    # h-ch3-cn-ch3
+dihedral_coeff  30   0.8 -0.76 0.0 0.0    # h-ch3-cn-ch2
+dihedral_coeff  31   0.0 0.0 0.0 0.0      # s-ch2-cn-n
+dihedral_coeff  32   -0.9 0.3 0.0 0.0     # h-ch2-cn-n
+dihedral_coeff  33   0.0 0.5 0.0 0.0      # s-ch2-cn-ch3
+dihedral_coeff  34   0.8 -0.76 0.0 0.0    # h-ch2-cn-ch3
+dihedral_coeff  35   0.0 0.5 0.0 0.0      # cn-ch2-s-os
+dihedral_coeff  36   0.0 0.0 0.0 0.0      # h-ch2-s-os
+
+# =======================================================================
+# Improper coeffs # cvff
+# =======================================================================
+
+improper_coeff  1     10.5 -1 2 # ch-c-o-n
+improper_coeff  2     2.5  -1 2  # c-n-chn-hn
+improper_coeff  3     2.5  -1 2  # c-n-hn-cn
+
+# =============================================================================
+# Pair coeffs # lj/cut/coul/long
+# =============================================================================
+
+pair_coeff   1   1   0.0659894837   3.5000000000 # ch2  1  FPE 2010
+pair_coeff   2   2   0.0000000000   0.0000000000 # h    1  FPE 2010
+pair_coeff   3   3   0.0659894837   3.5000000000 # ch   1  FPE 2010
+pair_coeff   4   4   0.1050000000   3.7500000000 # c    1  FPE 2010
+pair_coeff   5   5   0.2100000000   2.9600000000 # o    1  FPE 2010
+pair_coeff   6   6   0.1700000000   3.2500000000 # n    1  FPE 2010
+pair_coeff   7   7   0.0659894837   3.5000000000 # chn  1  FPE 2010
+pair_coeff   8   8   0.0659894837   3.5000000000 # ch3  1  FPE 2010
+pair_coeff   9   9   0.0000000000   0.0000000000 # hn   1  FPE 2010
+pair_coeff  10  10   0.0660000000   3.5000000000 # cn   1  jerkwin
+pair_coeff  11  11   0.2500000000   3.5500000000 # s    1  jerkwin
+pair_coeff  12  12   0.1700000000   2.9600000000 # os   1  jerkwin
+pair_coeff  13  13   0.1553000000   3.1660000000 # o_w  1  LAMMPS
+pair_coeff  14  14   0.0000000000   0.0000000000 # h_w  1  LAMMPS
+pair_coeff  15  15   0.2500000000   1.9421600000 # Zn   1  JPCA
+
+# Group definition
+# Atom group
+group  ch2    type   1
+group  h      type   2
+group  ch     type   3
+group  c      type   4
+group  o      type   5
+group  n      type   6
+group  chn    type   7
+group  ch3    type   8
+group  hn     type   9
+group  cn     type  10
+group  s      type  11
+group  os     type  12
+group  o_w    type  13
+group  h_w    type  14
+group  Zn     type  15
+
+# Molecule group      
+group  pNIPAM type 1:12
+group  water  type 13 14
+group  solution type 13:15
+group  fix_h  id 1245 623 1 3111 2489 1867 4977 4355 3733
+
+# Coulomb interaction
+kspace_style     pppm 1.0e-5
+neighbor         2 bin
+neigh_modify     delay 0
+
+# Run style
+run_style verlet
+fix 1 fix_h setforce 0.0 0.0  0.0 
+
+# ====================================================================
+# Output option 
+# ====================================================================
+compute r1 pNIPAM gyration
+fix f1 pNIPAM ave/time 10 2500 25000 c_r1 file nipam.rg
+
+thermo          5000
+thermo_style    custom time temp press etotal
+thermo_modify   flush yes
+
+dump            dtrj all custom 25000 ${lmp_data}.lammpstrj id type element  x y z mol 
+dump_modify     dtrj element  a1 a2 a3 a4 a5 a6 a7 a8 a9 a10 a11 a12 a13 a14 a15
+
+restart 100000 hydrogel.restart
+
+# ====================================================================
+# run
+# ====================================================================
+
+timestep  2
+fix      constrain water shake 1.0e-4 100 0 b 17 a 33
+fix      NPT all npt temp 298.0 298.0 100.0 iso 1.0 1.0 1000.0 # for 298 K
+#fix      NPT all npt temp 353.0 353.0 100.0 iso 1.0 1.0 1000.0 # for 353 K
+
+run      5000000
+write_data equilibrium.10ns
+
+run      5000000
+write_data equilibrium.20ns
+
+run      5000000
+write_data equilibrium.30ns
+
+run      5000000
+write_data equilibrium.40ns
+
+
+
+
+
+
+
+
+
+
